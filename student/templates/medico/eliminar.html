@@ -1,0 +1,23 @@
+{% extends "paciente/base.html" %}
+{% load static %}
+{% block content %}
+<h1>Eliminar Médico</h1>
+<p>¿Seguro que deseas eliminar a <strong>{{ medico.nombres }} {{ medico.apellidos }}</strong>?</p>
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>⚠️ Advertencia:</strong> Esta acción no se puede deshacer. Se eliminará permanentemente todos los datos del médico.
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+
+<form method="post" id="formEliminar" name="formEliminar">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger" id="btnEliminar">Sí, eliminar</button>
+  <a class="btn btn-secondary" href="{% url 'student:listar_medicos' %}">Cancelar</a>
+</form>
+
+<script src="{% static 'js/validaciones.js' %}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    inicializarConfirmacionEliminacion('formEliminar');
+  });
+</script>
+{% endblock %}

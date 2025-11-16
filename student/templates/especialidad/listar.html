@@ -1,0 +1,45 @@
+{% extends "paciente/base.html" %}
+{% block content %}
+
+<h1 class="mb-3">Especialidades</h1>
+
+<!-- Mensajes de Django -->
+{% if messages %}
+<div>
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+<!-- Fin mensajes -->
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID (PK)</th>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for especialidad in especialidades %}
+    <tr>
+      <td>{{ especialidad.pk }}</td>
+      <td>{{ especialidad.nombre }}</td>
+      <td>{{ especialidad.descripcion }}</td>
+      <td class="text-end">
+        <a class="btn btn-sm btn-primary" href="{% url 'student:editar_especialidad' especialidad.slug %}">Editar</a>
+        <a class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar {{ especialidad.nombre }}?');" href="{% url 'student:eliminar_especialidad' especialidad.slug %}">Eliminar</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4" class="text-center text-muted">No hay especialidades aún.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends "paciente/base.html" %}
+{% block content %}
+<div class="container py-5">
+
+  <div class="card shadow-sm mb-4" style="border-radius:12px;">
+    <div class="card-body">
+      <h1 class="display-5 mb-2">Bienvenido a <strong>PacienteHub</strong></h1>
+      <p class="lead mb-3">
+        Proyecto Django: una mini-app para practicar CRUD sobre múltiples modelos:
+        <strong>Paciente</strong>, <strong>Especialidad</strong>, <strong>Médico</strong>, <strong>Cita</strong> y <strong>Receta</strong>.
+      </p>
+      <p class="mb-0">
+        Aquí practicarás las cuatro operaciones básicas: <strong>Listar</strong>, <strong>Crear</strong>,
+        <strong>Editar</strong> y <strong>Eliminar</strong>.
+      </p>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <!-- PACIENTE -->
+    <div class="col-md-6 mb-4">
+      <div class="card p-3" style="border-radius:10px;">
+        <h5>🏥 Pacientes</h5>
+        <p class="small mb-3">
+          Contiene: <strong>cédula</strong>, <strong>nombres</strong>, <strong>apellidos</strong>,
+          <strong>correo</strong>, <strong>teléfono</strong>, <strong>fecha_nacimiento</strong> y <strong>dirección</strong>.
+        </p>
+        <a class="btn btn-primary btn-sm" href="{% url 'student:listar_pacientes' %}">Listar Pacientes</a>
+        <a class="btn btn-success btn-sm" href="{% url 'student:crear_paciente' %}">Crear Paciente</a>
+      </div>
+    </div>
+
+    <!-- ESPECIALIDAD -->
+    <div class="col-md-6 mb-4">
+      <div class="card p-3" style="border-radius:10px;">
+        <h5>🔬 Especialidades</h5>
+        <p class="small mb-3">
+          Contiene: <strong>nombre</strong> y <strong>descripción</strong> de cada especialidad médica.
+        </p>
+        <a class="btn btn-primary btn-sm" href="{% url 'student:listar_especialidades' %}">Listar Especialidades</a>
+        <a class="btn btn-success btn-sm" href="{% url 'student:crear_especialidad' %}">Crear Especialidad</a>
+      </div>
+    </div>
+
+    <!-- MEDICO -->
+    <div class="col-md-6 mb-4">
+      <div class="card p-3" style="border-radius:10px;">
+        <h5>👨‍⚕️ Médicos</h5>
+        <p class="small mb-3">
+          Contiene: <strong>cédula</strong>, <strong>nombres</strong>, <strong>apellidos</strong>,
+          <strong>licencia</strong>, <strong>teléfono</strong>, <strong>email</strong> y <strong>especialidad</strong>.
+        </p>
+        <a class="btn btn-primary btn-sm" href="{% url 'student:listar_medicos' %}">Listar Médicos</a>
+        <a class="btn btn-success btn-sm" href="{% url 'student:crear_medico' %}">Crear Médico</a>
+      </div>
+    </div>
+
+    <!-- CITA -->
+    <div class="col-md-6 mb-4">
+      <div class="card p-3" style="border-radius:10px;">
+        <h5>📅 Citas Médicas</h5>
+        <p class="small mb-3">
+          Contiene: <strong>paciente</strong>, <strong>médico</strong>, <strong>fecha</strong>,
+          <strong>motivo</strong>, <strong>observaciones</strong> y <strong>estado</strong>.
+        </p>
+        <a class="btn btn-primary btn-sm" href="{% url 'student:listar_citas' %}">Listar Citas</a>
+        <a class="btn btn-success btn-sm" href="{% url 'student:crear_cita' %}">Crear Cita</a>
+      </div>
+    </div>
+
+    <!-- RECETA -->
+    <div class="col-md-6 mb-4">
+      <div class="card p-3" style="border-radius:10px;">
+        <h5>💊 Recetas Médicas</h5>
+        <p class="small mb-3">
+          Contiene: <strong>cita</strong>, <strong>medicamento</strong>, <strong>dosis</strong>,
+          <strong>frecuencia</strong>, <strong>duración</strong> e <strong>indicaciones</strong>.
+        </p>
+        <a class="btn btn-primary btn-sm" href="{% url 'student:listar_recetas' %}">Listar Recetas</a>
+        <a class="btn btn-success btn-sm" href="{% url 'student:crear_receta' %}">Crear Receta</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="card p-3 h-100" style="border-radius:10px;">
+        <h5>¿Cómo usar esto?</h5>
+        <ul class="mb-0 ms-3">
+          <li>Usa los botones <strong>Crear</strong> para añadir nuevos registros.</li>
+          <li>En cada lista podrás <strong>Editar o Eliminar</strong> los registros.</li>
+          <li>Asegúrate de llenar todos los campos obligatorios antes de guardar.</li>
+          <li>Prueba todos los CRUDs desde los botones disponibles arriba⬆️.</li>
+          <li>Los modelos están relacionados: Médico pertenece a Especialidad, Cita a Paciente y Médico, y Receta a Cita.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card p-3 h-100" style="border-radius:10px;">
+        <h5><strong>Creadores</strong></h5>
+
+        <img src="https://i.ibb.co/0jKfBWDM/trabajoarieletc.jpg" alt="Foto del creador"
+          style="width:150px; height:150px; object-fit:cover; border-radius:8px; display:block; margin:auto;">
+
+        <p class="small mb-0 mt-2 text-center">
+          Proyecto desarrollado como parte del aprendizaje en Django,
+          Hecho por Ariel, John, Cesar y Moises.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4 text-muted small">
+    <p class="mb-1">Usamos Django porque acelera el desarrollo, organiza el código, protege la app y facilita crear
+      proyectos web escalables y limpios.</p>
+    <p class="mb-0"><strong>Sistema de Gestión Médica:</strong> Completo sistema para administrar pacientes, médicos, especialidades, citas y recetas médicas.</p>
+  </div>
+
+{% endblock content %}

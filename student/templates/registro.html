@@ -1,0 +1,199 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Paciente</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h2 { color: #333; margin-bottom: 1.5rem; text-align: center; }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .form-group { margin-bottom: 1rem; }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 500;
+        }
+        label .required { color: #e74c3c; }
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 1rem;
+        }
+        .btn:hover { background: #5568d3; }
+        .messages {
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .error { background: #fee; color: #c33; border: 1px solid #fcc; }
+        .success { background: #efe; color: #3c3; border: 1px solid #cfc; }
+        .errorlist {
+            list-style: none;
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+        .help-text {
+            font-size: 0.85rem;
+            color: #777;
+            margin-top: 0.25rem;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #555;
+        }
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .login-link a:hover { text-decoration: underline; }
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Registro de Usuario</h2>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="messages {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" id="registroForm">
+            {% csrf_token %}
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id_username">Usuario: <span class="required">*</span></label>
+                    {{ form.username }}
+                    {{ form.username.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_cedula">Cédula: <span class="required">*</span></label>
+                    {{ form.cedula }}
+                    {{ form.cedula.errors }}
+                    <div class="help-text">10 dígitos</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id_first_name">Nombres: <span class="required">*</span></label>
+                    {{ form.first_name }}
+                    {{ form.first_name.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_last_name">Apellidos: <span class="required">*</span></label>
+                    {{ form.last_name }}
+                    {{ form.last_name.errors }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id_email">Correo electrónico: <span class="required">*</span></label>
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_telefono">Teléfono: <span class="required">*</span></label>
+                    {{ form.telefono }}
+                    {{ form.telefono.errors }}
+                    <div class="help-text">10 dígitos</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_fecha_nacimiento">Fecha de nacimiento: <span class="required">*</span></label>
+                {{ form.fecha_nacimiento }}
+                {{ form.fecha_nacimiento.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_direccion">Dirección: <span class="required">*</span></label>
+                {{ form.direccion }}
+                {{ form.direccion.errors }}
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id_password1">Contraseña: <span class="required">*</span></label>
+                    {{ form.password1 }}
+                    {{ form.password1.errors }}
+                    <div class="help-text">Mínimo 8 caracteres</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password2">Confirmar contraseña: <span class="required">*</span></label>
+                    {{ form.password2 }}
+                    {{ form.password2.errors }}
+                </div>
+            </div>
+
+            {% if form.non_field_errors %}
+                <div class="errorlist">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <button type="submit" class="btn">Registrarse</button>
+        </form>
+
+        <div class="login-link">
+            ¿Ya tienes cuenta? <a href="{% url 'student:login' %}">Inicia sesión aquí</a>
+        </div>
+    </div>
+
+    <script src="{% static 'js/validaciones.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+{% extends "paciente/base.html" %}
+{% block content %}
+
+<h1 class="mb-3">Citas Médicas</h1>
+
+<!-- Mensajes de Django -->
+{% if messages %}
+<div>
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+<!-- Fin mensajes -->
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID (PK)</th>
+      <th>Paciente</th>
+      <th>Médico</th>
+      <th>Fecha</th>
+      <th>Estado</th>
+      <th>Motivo</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for cita in citas %}
+    <tr>
+      <td>{{ cita.pk }}</td>
+      <td>{{ cita.paciente.nombres }} {{ cita.paciente.apellidos }}</td>
+      <td>{{ cita.medico.nombres }} {{ cita.medico.apellidos }}</td>
+      <td>{{ cita.fecha|date:"d/m/Y H:i" }}</td>
+      <td>
+        <span class="badge {% if cita.estado == 'completada' %}bg-success{% elif cita.estado == 'pendiente' %}bg-warning{% else %}bg-danger{% endif %}">
+          {{ cita.get_estado_display }}
+        </span>
+      </td>
+      <td>{{ cita.motivo|truncatewords:5 }}</td>
+      <td class="text-end">
+        <a class="btn btn-sm btn-primary" href="{% url 'student:editar_cita' cita.slug %}">Editar</a>
+        <a class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta cita?');" href="{% url 'student:eliminar_cita' cita.slug %}">Eliminar</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="7" class="text-center text-muted">No hay citas registradas aún.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

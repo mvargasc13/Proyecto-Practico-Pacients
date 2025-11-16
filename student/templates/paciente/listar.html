@@ -1,0 +1,51 @@
+{% extends "paciente/base.html" %}
+{% block content %}
+
+<h1 class="mb-3">Pacientes</h1>
+
+<!-- Mensajes de Django -->
+{% if messages %}
+<div>
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+<!-- Fin mensajes -->
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID (PK)</th>
+      <th>Nombres</th>
+      <th>Apellidos</th>
+      <th>Cédula</th>
+      <th>Correo</th>
+      <th>Teléfono</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for paciente in pacientes %}
+    <tr>
+      <td>{{ paciente.pk }}</td>
+      <td>{{ paciente.nombres }}</td>
+      <td>{{ paciente.apellidos }}</td>
+      <td>{{ paciente.cedula }}</td>
+      <td>{{ paciente.correo }}</td>
+      <td>{{ paciente.telefono }}</td>
+      <td class="text-end">
+        <a class="btn btn-sm btn-primary" href="{% url 'student:editar_paciente' paciente.slug %}">Editar</a>
+        <a class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar a {{ paciente.nombres }}?');" href="{% url 'student:eliminar_paciente' paciente.slug %}">Eliminar</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="7" class="text-center text-muted">No hay pacientes aún.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
