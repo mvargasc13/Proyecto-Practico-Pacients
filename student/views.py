@@ -1,9 +1,15 @@
+import logging
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
 from .models import Paciente, Especialidad, Medico, Cita, Receta
 from .forms import PacienteForm, LoginForm, RegistroForm, EspecialidadForm, MedicoForm, CitaForm, RecetaForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login,logout
+from django.contrib.auth import login, logout
+
+logger = logging.getLogger(__name__)
 # Create your views here.
 def login_view(request):
     if request.method == 'POST':
@@ -26,6 +32,29 @@ def register_view(request):
         form = RegistroForm(request.POST)
         if form.is_valid():
             user = form.save()
+            try:
+                nombre = user.first_name or user.username
+                cuerpo = (
+                    f"Hola {nombre},\n\n"
+                    "Tu cuenta en PacienteHub se creó correctamente. "
+                    "Ahora puedes iniciar sesión y administrar tus datos médicos.\n\n"
+                    "Gracias por registrarte."
+                )
+                send_mail(
+                    subject='Bienvenido a PacienteHub',
+                    message=cuerpo,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[user.email],
+                    fail_silently=False,
+                )
+            except Exception as exc:  # pragma: no cover - se loguea para depuración
+                logger.warning('No se pudo enviar correo de bienvenida: %s', exc)
+                messages.warning(
+                    request,
+                    'La cuenta fue creada pero no se pudo enviar el correo de confirmación.',
+                )
+            else:
+                messages.success(request, 'Cuenta creada con éxito. Revisa tu correo de confirmación.')
             login(request, user)
             return redirect('student:inicio')
     else:

@@ -1,0 +1,28 @@
+# Entorno Python
+venv/
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# SQLite y migraciones
+*.sqlite3
+migrations/**/__pycache__/
+
+# Archivos temporales y logs
+*.log
+*.pot
+*.mo
+
+# Archivos de editor/IDE
+.vscode/
+*.code-workspace
+.idea/
+
+# Archivos Django
+/staticfiles/
+/media/
+
+# Otros
+.DS_Store
+Thumbs.db
