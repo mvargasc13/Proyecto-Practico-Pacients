@@ -18,17 +18,21 @@
 
   <div class="row mt-4">
     <!-- PACIENTE -->
+    {% if request.user.is_staff or request.user.is_superuser %}
     <div class="col-md-6 mb-4">
       <div class="card p-3" style="border-radius:10px;">
         <h5>🏥 Pacientes</h5>
         <p class="small mb-3">
           Contiene: <strong>cédula</strong>, <strong>nombres</strong>, <strong>apellidos</strong>,
-          <strong>correo</strong>, <strong>teléfono</strong>, <strong>fecha_nacimiento</strong> y <strong>dirección</strong>.
+          <strong>correo</strong>, <strong>teléfono</strong>, <strong>fecha_nacimiento</strong> y
+          <strong>dirección</strong>.
         </p>
         <a class="btn btn-primary btn-sm" href="{% url 'student:listar_pacientes' %}">Listar Pacientes</a>
         <a class="btn btn-success btn-sm" href="{% url 'student:crear_paciente' %}">Crear Paciente</a>
       </div>
     </div>
+    {% endif %}
+
 
     <!-- ESPECIALIDAD -->
     <div class="col-md-6 mb-4">
