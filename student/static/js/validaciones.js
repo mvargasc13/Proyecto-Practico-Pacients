@@ -8,7 +8,7 @@ function obtenerCampo(formulario, nombreCampo) {
 function validarObligatorio(campo, nombreCampo, errores) {
   if (!campo || !campo.value.trim()) {
     errores.push(`${nombreCampo} es obligatorio.`);
-    if (campo) campo.classList.add('is-invalid');p
+    if (campo) campo.classList.add('is-invalid');
     return false;
   }
   if (campo) campo.classList.remove('is-invalid');
@@ -46,6 +46,55 @@ function validarSoloNumeros(campo, nombreCampo, errores) {
 }
 
 /**
+ * Valida cédula ecuatoriana
+ */
+function validarCedula(campo, nombreCampo, errores) {
+  if (!campo || !campo.value.trim()) return true;
+  
+  const cedula = campo.value.trim();
+  
+  if (!/^\d{10}$/.test(cedula)) {
+    errores.push(`${nombreCampo} debe tener exactamente 10 dígitos.`);
+    campo.classList.add('is-invalid');
+    return false;
+  }
+  
+  const provincia = parseInt(cedula.substring(0, 2));
+  if (provincia < 1 || provincia > 24) {
+    errores.push(`${nombreCampo} debe comenzar con un código de provincia válido (01-24).`);
+    campo.classList.add('is-invalid');
+    return false;
+  }
+  
+  campo.classList.remove('is-invalid');
+  return true;
+}
+
+/**
+ * Valida teléfono ecuatoriano
+ */
+function validarTelefono(campo, nombreCampo, errores) {
+  if (!campo || !campo.value.trim()) return true;
+  
+  const telefono = campo.value.trim();
+  
+  if (!/^\d{10}$/.test(telefono)) {
+    errores.push(`${nombreCampo} debe tener exactamente 10 dígitos.`);
+    campo.classList.add('is-invalid');
+    return false;
+  }
+  
+  if (!telefono.startsWith('09')) {
+    errores.push(`${nombreCampo} debe comenzar con 09.`);
+    campo.classList.add('is-invalid');
+    return false;
+  }
+  
+  campo.classList.remove('is-invalid');
+  return true;
+}
+
+/**
  * Valida correo electrónico
  */
 function validarCorreo(campo, nombreCampo, errores) {
@@ -61,6 +110,22 @@ function validarCorreo(campo, nombreCampo, errores) {
     campo.classList.add('is-invalid');
     return false;
   }
+  campo.classList.remove('is-invalid');
+  return true;
+}
+
+/**
+ * Valida contraseña
+ */
+function validarContraseña(campo, nombreCampo, errores) {
+  if (!campo || !campo.value.trim()) return true;
+  
+  if (campo.value.length < 8) {
+    errores.push(`${nombreCampo} debe tener al menos 8 caracteres.`);
+    campo.classList.add('is-invalid');
+    return false;
+  }
+  
   campo.classList.remove('is-invalid');
   return true;
 }
@@ -116,6 +181,14 @@ function inicializarValidaciones(formId) {
       // Validar tipos específicos
       if (tipo === 'email') {
         validarCorreo(campo, label, errores);
+      } else if (nombre === 'cedula') {
+        validarCedula(campo, label, errores);
+      } else if (nombre === 'telefono') {
+        validarTelefono(campo, label, errores);
+      } else if (nombre === 'first_name' || nombre === 'last_name' || nombre === 'nombre' || nombre === 'apellido') {
+        validarSoloLetras(campo, label, errores);
+      } else if (nombre === 'password1' || nombre === 'password2') {
+        validarContraseña(campo, label, errores);
       }
     });
 

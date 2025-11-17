@@ -33,15 +33,15 @@
     {% for medico in medicos %}
     <tr>
       <td>{{ medico.pk }}</td>
-      <td>{{ medico.nombres }}</td>
-      <td>{{ medico.apellidos }}</td>
+      <td>{{ medico.nombre }}</td>
+      <td>{{ medico.apellido }}</td>
       <td>{{ medico.cedula }}</td>
       <td>{{ medico.licencia }}</td>
       <td>{{ medico.especialidad.nombre }}</td>
       <td>{{ medico.telefono }}</td>
       <td class="text-end">
         <a class="btn btn-sm btn-primary" href="{% url 'student:editar_medico' medico.slug %}">Editar</a>
-        <a class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar a {{ medico.nombres }}?');" href="{% url 'student:eliminar_medico' medico.slug %}">Eliminar</a>
+        <a class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar a {{ medico.nombre }}?');" href="{% url 'student:eliminar_medico' medico.slug %}">Eliminar</a>
       </td>
     </tr>
     {% empty %}

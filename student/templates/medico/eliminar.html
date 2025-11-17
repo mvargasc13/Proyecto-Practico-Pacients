@@ -1,23 +1,32 @@
-{% extends "paciente/base.html" %}
-{% load static %}
+{% extends 'paciente/base.html' %}
 {% block content %}
-<h1>Eliminar Médico</h1>
-<p>¿Seguro que deseas eliminar a <strong>{{ medico.nombres }} {{ medico.apellidos }}</strong>?</p>
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>⚠️ Advertencia:</strong> Esta acción no se puede deshacer. Se eliminará permanentemente todos los datos del médico.
-  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-header bg-danger text-white">
+      <h4>Eliminar Médico</h4>
+    </div>
+    <div class="card-body">
+      <form method="post" id="deleteForm">
+        {% csrf_token %}
+        <p>¿Estás seguro de que deseas eliminar a <strong>{{ medico.nombre }} {{ medico.apellido }}</strong>?</p>
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        <a class="btn btn-secondary" href="{% url 'student:listar_medicos' %}">Cancelar</a>
+      </form>
+    </div>
+  </div>
+  {% if messages %}
+    <div class="mt-3">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
 </div>
-
-<form method="post" id="formEliminar" name="formEliminar">
-  {% csrf_token %}
-  <button type="submit" class="btn btn-danger" id="btnEliminar">Sí, eliminar</button>
-  <a class="btn btn-secondary" href="{% url 'student:listar_medicos' %}">Cancelar</a>
-</form>
-
-<script src="{% static 'js/validaciones.js' %}"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    inicializarConfirmacionEliminacion('formEliminar');
+  document.getElementById('deleteForm').addEventListener('submit', function(event) {
+    if(!confirm('¿Estás seguro de que deseas eliminar a {{ medico.nombre }} {{ medico.apellido }}?')) {
+      event.preventDefault();
+    }
   });
 </script>
 {% endblock %}

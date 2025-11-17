@@ -2,7 +2,6 @@ from django.urls import path
 from django.views.generic import RedirectView
 from . import views
 
-# Namespace para los nombres de las rutas (usar en templates: 'student:inicio')
 app_name = 'student'
 
 urlpatterns = [
